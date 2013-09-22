@@ -1,0 +1,14 @@
+Current local Database:
+
+Host: localhost
+User Name: root
+Password: root
+
+Admin
+
+Name: Henry Fan
+Email: live.fhlvp@gmail.com
+Login Name: Henry
+Password: admin123
+
+encryption key: 8e1123713171fed8599ccd37f0c3515a
