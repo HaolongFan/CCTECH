@@ -1,0 +1,202 @@
+2013-09-22T04:58:43+00:00 DEBUG (7): UPDATE: SELECT DISTINCT `target`.`id`, `target`.`code`, `target`.`type`, `target`.`default_mask0`, `target`.`default_mask1`, `eav_attribute_additional`.`is_filterable` AS `is_enabled`, `eav_attribute`.`frontend_label` AS `name`, `eav_attribute_additional`.`is_filterable_in_search` AS `is_enabled_in_search`, `eav_attribute_additional`.`position` FROM `eav_attribute`
+ INNER JOIN `catalog_eav_attribute` AS `eav_attribute_additional` ON eav_attribute.attribute_id = eav_attribute_additional.attribute_id
+ INNER JOIN `eav_entity_type` ON eav_attribute.entity_type_id = eav_entity_type.entity_type_id
+ INNER JOIN `m_filter2` AS `target` ON target.code = eav_attribute.attribute_code WHERE (eav_entity_type.entity_type_code = 'catalog_product') AND (eav_attribute_additional.is_filterable <> 0)
+2013-09-22T04:58:43+00:00 DEBUG (7): UPDATE: SELECT `target`.`id`, `target`.`code`, `target`.`type`, `target`.`default_mask0`, `target`.`default_mask1`, (1) AS `is_enabled`, ('Category') AS `name`, (1) AS `is_enabled_in_search`, (-1) AS `position` FROM `m_filter2` AS `target` WHERE (target.code = 'category')
+2013-09-22T04:58:43+00:00 DEBUG (7): INSERT: SELECT DISTINCT `eav_attribute`.`attribute_code` AS `code`, IF(eav_attribute.attribute_code = 'category', 'category', IF(eav_attribute.attribute_code = 'price', 'price', IF(eav_attribute.backend_type = 'decimal', 'decimal', 'attribute'))) AS `type`, `eav_attribute_additional`.`is_filterable` AS `is_enabled`, `eav_attribute`.`frontend_label` AS `name`, `eav_attribute_additional`.`is_filterable_in_search` AS `is_enabled_in_search`, `eav_attribute_additional`.`position` FROM `eav_attribute`
+ INNER JOIN `catalog_eav_attribute` AS `eav_attribute_additional` ON eav_attribute.attribute_id = eav_attribute_additional.attribute_id
+ INNER JOIN `eav_entity_type` ON eav_attribute.entity_type_id = eav_entity_type.entity_type_id
+ LEFT JOIN `m_filter2` AS `target` ON target.code = eav_attribute.attribute_code WHERE (eav_entity_type.entity_type_code = 'catalog_product') AND (eav_attribute_additional.is_filterable <> 0) AND (target.id IS NULL)
+2013-09-22T04:58:43+00:00 DEBUG (7): INSERT: {"code":"color","type":"attribute","_m_prevent_replication":true,"is_enabled":"1","display":"list","name":"Color","is_enabled_in_search":"0","position":"0","sort_method":null}
+2013-09-22T04:58:43+00:00 DEBUG (7): INSERT: {"code":"manufacturer","type":"attribute","_m_prevent_replication":true,"is_enabled":"1","display":"list","name":"Manufacturer","is_enabled_in_search":"0","position":"0","sort_method":null}
+2013-09-22T04:58:43+00:00 DEBUG (7): INSERT: {"code":"price","type":"price","_m_prevent_replication":true,"is_enabled":"1","display":"list","name":"Price","is_enabled_in_search":"0","position":"0","sort_method":null}
+2013-09-22T04:58:43+00:00 DEBUG (7): INSERT: SELECT ('category') AS `code`, ('category') AS `type`, (1) AS `is_enabled`, ('Category') AS `name`, (1) AS `is_enabled_in_search`, (-1) AS `position` FROM (SELECT ('category') AS `code`) AS `source`
+ LEFT JOIN `m_filter2` AS `target` ON target.code = 'category' WHERE (target.id IS NULL)
+2013-09-22T04:58:43+00:00 DEBUG (7): INSERT: {"code":"category","type":"category","_m_prevent_replication":true,"is_enabled":"1","display":"standard","name":"Category","is_enabled_in_search":"1","position":"-1","sort_method":null}
+2013-09-22T04:58:43+00:00 DEBUG (7): DELETE: SELECT DISTINCT `target`.`id` FROM `m_filter2` AS `target`
+ LEFT JOIN `eav_attribute` ON target.code = eav_attribute.attribute_code
+ LEFT JOIN `catalog_eav_attribute` AS `eav_attribute_additional` ON eav_attribute.attribute_id = eav_attribute_additional.attribute_id WHERE ((eav_attribute.attribute_id IS NULL) OR (eav_attribute_additional.is_filterable = 0)) AND (target.code <> 'category')
+2013-09-22T04:58:43+00:00 DEBUG (7): UPDATE: SELECT DISTINCT `target`.`id`, `target`.`global_id`, `target`.`store_id`, `target`.`default_mask0`, `target`.`default_mask1`, `global`.`is_enabled`, `global`.`display`, COALESCE(eav_attribute_label.value, global.name) AS `name`, `global`.`is_enabled_in_search`, `global`.`position`, `global`.`sort_method`, `global`.`operation`, `global`.`is_reverse` FROM `m_filter2` AS `global`
+ INNER JOIN `m_filter2_store` AS `target` ON target.global_id = global.id
+ LEFT JOIN `eav_attribute` ON global.code = eav_attribute.attribute_code
+ LEFT JOIN `eav_attribute_label` ON eav_attribute.attribute_id = eav_attribute_label.attribute_id AND target.store_id = eav_attribute_label.store_id
+2013-09-22T04:58:43+00:00 DEBUG (7): INSERT: SELECT DISTINCT `global`.`id` AS `global_id`, `core_store`.`store_id`, `global`.`is_enabled`, `global`.`display`, COALESCE(eav_attribute_label.value, global.name) AS `name`, `global`.`is_enabled_in_search`, `global`.`position`, `global`.`sort_method`, `global`.`operation`, `global`.`is_reverse` FROM `m_filter2` AS `global`
+ INNER JOIN `core_store`
+ LEFT JOIN `m_filter2_store` AS `target` ON target.global_id = global.id AND target.store_id = core_store.store_id
+ LEFT JOIN `eav_attribute` ON global.code = eav_attribute.attribute_code
+ LEFT JOIN `eav_attribute_label` ON eav_attribute.attribute_id = eav_attribute_label.attribute_id AND target.store_id = eav_attribute_label.store_id WHERE (core_store.store_id <> 0) AND (target.id IS NULL)
+2013-09-22T04:58:43+00:00 DEBUG (7): INSERT: {"global_id":"1","store_id":"1","_m_prevent_replication":true,"is_enabled":"1","display":"list","name":"Color","is_enabled_in_search":"0","position":"0","sort_method":"","operation":"","is_reverse":"0"}
+2013-09-22T04:58:43+00:00 DEBUG (7): INSERT: {"global_id":"2","store_id":"1","_m_prevent_replication":true,"is_enabled":"1","display":"list","name":"Manufacturer","is_enabled_in_search":"0","position":"0","sort_method":"","operation":"","is_reverse":"0"}
+2013-09-22T04:58:43+00:00 DEBUG (7): INSERT: {"global_id":"3","store_id":"1","_m_prevent_replication":true,"is_enabled":"1","display":"list","name":"Price","is_enabled_in_search":"0","position":"0","sort_method":"","operation":"","is_reverse":"0"}
+2013-09-22T04:58:43+00:00 DEBUG (7): INSERT: {"global_id":"4","store_id":"1","_m_prevent_replication":true,"is_enabled":"1","display":"standard","name":"Category","is_enabled_in_search":"1","position":"-1","sort_method":"","operation":"","is_reverse":"0"}
+2013-09-22T04:58:43+00:00 DEBUG (7): UPDATE: SELECT DISTINCT `target`.`id`, `target`.`option_id`, `target`.`filter_id`, `target`.`default_mask0`, `global_option_value`.`value_id`, `global_option_value`.`value` AS `name`, `eav_attribute_option`.`sort_order` AS `position` FROM `eav_attribute`
+ INNER JOIN `eav_attribute_option` ON eav_attribute.attribute_id = eav_attribute_option.attribute_id
+ INNER JOIN `m_filter2_value` AS `target` ON target.option_id = eav_attribute_option.option_id
+ INNER JOIN `m_filter2` AS `parent` ON target.filter_id = parent.id
+ LEFT JOIN `eav_attribute_option_value` AS `global_option_value` ON global_option_value.option_id = eav_attribute_option.option_id AND global_option_value.store_id = 0 WHERE (target.edit_status = 0)
+2013-09-22T04:58:43+00:00 DEBUG (7): INSERT: SELECT DISTINCT `eav_attribute_option`.`option_id`, `parent`.`id` AS `filter_id`, `global_option_value`.`value_id`, `global_option_value`.`value` AS `name`, `eav_attribute_option`.`sort_order` AS `position` FROM `eav_attribute`
+ INNER JOIN `eav_attribute_option` ON eav_attribute.attribute_id = eav_attribute_option.attribute_id
+ INNER JOIN `m_filter2` AS `parent` ON eav_attribute.attribute_code = parent.code
+ LEFT JOIN `eav_attribute_option_value` AS `global_option_value` ON global_option_value.option_id = eav_attribute_option.option_id AND global_option_value.store_id = 0
+ LEFT JOIN `m_filter2_value` AS `target` ON target.option_id = eav_attribute_option.option_id WHERE (target.id IS NULL)
+2013-09-22T04:58:43+00:00 DEBUG (7): UPDATE: SELECT DISTINCT `target`.`id`, `target`.`global_id`, `target`.`store_id`, `target`.`filter_id`, `target`.`default_mask0`, `global`.`option_id`, COALESCE(store_option_value.value_id, global_option_value.value_id) AS `value_id`, COALESCE(store_option_value.value, global_option_value.value, '') AS `name`, `global`.`position` FROM `m_filter2_value` AS `global`
+ INNER JOIN `m_filter2_value_store` AS `target` ON target.global_id = global.id AND global.edit_status = 0
+ INNER JOIN `eav_attribute_option` ON global.option_id = eav_attribute_option.option_id
+ INNER JOIN `m_filter2_store` AS `parent` ON target.filter_id = parent.id
+ LEFT JOIN `eav_attribute_option_value` AS `global_option_value` ON global_option_value.option_id = eav_attribute_option.option_id AND global_option_value.store_id = 0
+ LEFT JOIN `eav_attribute_option_value` AS `store_option_value` ON store_option_value.option_id = eav_attribute_option.option_id AND store_option_value.store_id = target.store_id WHERE (target.edit_status = 0)
+2013-09-22T04:58:43+00:00 DEBUG (7): INSERT: SELECT DISTINCT `global`.`id` AS `global_id`, `core_store`.`store_id`, `parent`.`id` AS `filter_id`, `global`.`option_id`, COALESCE(store_option_value.value_id, global_option_value.value_id) AS `value_id`, COALESCE(store_option_value.value, global_option_value.value, '') AS `name`, `global`.`position` FROM `m_filter2_value` AS `global`
+ INNER JOIN `core_store`
+ INNER JOIN `eav_attribute_option` ON global.option_id = eav_attribute_option.option_id
+ INNER JOIN `eav_attribute` ON eav_attribute.attribute_id = eav_attribute_option.attribute_id
+ INNER JOIN `m_filter2` AS `parent_global` ON eav_attribute.attribute_code = parent_global.code
+ INNER JOIN `m_filter2_store` AS `parent` ON parent_global.id = parent.global_id AND core_store.store_id = parent.store_id
+ LEFT JOIN `eav_attribute_option_value` AS `global_option_value` ON global_option_value.option_id = eav_attribute_option.option_id AND global_option_value.store_id = 0
+ LEFT JOIN `eav_attribute_option_value` AS `store_option_value` ON store_option_value.option_id = eav_attribute_option.option_id AND store_option_value.store_id = core_store.store_id
+ LEFT JOIN `m_filter2_value_store` AS `target` ON target.global_id = global.id AND target.store_id = core_store.store_id WHERE (core_store.store_id <> 0) AND (global.edit_status = 0) AND (target.id IS NULL)
+2013-09-22T07:08:14+00:00 DEBUG (7): UPDATE: SELECT DISTINCT `target`.`id`, `target`.`code`, `target`.`type`, `target`.`default_mask0`, `target`.`default_mask1`, `eav_attribute_additional`.`is_filterable` AS `is_enabled`, `eav_attribute`.`frontend_label` AS `name`, `eav_attribute_additional`.`is_filterable_in_search` AS `is_enabled_in_search`, `eav_attribute_additional`.`position` FROM `eav_attribute`
+ INNER JOIN `catalog_eav_attribute` AS `eav_attribute_additional` ON eav_attribute.attribute_id = eav_attribute_additional.attribute_id
+ INNER JOIN `eav_entity_type` ON eav_attribute.entity_type_id = eav_entity_type.entity_type_id
+ INNER JOIN `m_filter2` AS `target` ON target.code = eav_attribute.attribute_code WHERE (eav_entity_type.entity_type_code = 'catalog_product') AND (eav_attribute_additional.is_filterable <> 0)
+2013-09-22T07:08:14+00:00 DEBUG (7): UPDATE: {"id":"1","code":"color","type":"attribute","_m_prevent_replication":true,"is_enabled":"1","display":"list","name":"Color","is_enabled_in_search":"0","position":"0","sort_method":null}
+2013-09-22T07:08:14+00:00 DEBUG (7): UPDATE: {"id":"2","code":"manufacturer","type":"attribute","_m_prevent_replication":true,"is_enabled":"1","display":"list","name":"Manufacturer","is_enabled_in_search":"0","position":"0","sort_method":null}
+2013-09-22T07:08:14+00:00 DEBUG (7): UPDATE: {"id":"3","code":"price","type":"price","_m_prevent_replication":true,"is_enabled":"1","display":"list","name":"Price","is_enabled_in_search":"0","position":"0","sort_method":null}
+2013-09-22T07:08:14+00:00 DEBUG (7): UPDATE: SELECT `target`.`id`, `target`.`code`, `target`.`type`, `target`.`default_mask0`, `target`.`default_mask1`, (1) AS `is_enabled`, ('Category') AS `name`, (1) AS `is_enabled_in_search`, (-1) AS `position` FROM `m_filter2` AS `target` WHERE (target.code = 'category')
+2013-09-22T07:08:14+00:00 DEBUG (7): UPDATE: {"id":"4","code":"category","type":"category","_m_prevent_replication":true,"is_enabled":"1","display":"standard","name":"Category","is_enabled_in_search":"1","position":"-1","sort_method":null}
+2013-09-22T07:08:14+00:00 DEBUG (7): INSERT: SELECT DISTINCT `eav_attribute`.`attribute_code` AS `code`, IF(eav_attribute.attribute_code = 'category', 'category', IF(eav_attribute.attribute_code = 'price', 'price', IF(eav_attribute.backend_type = 'decimal', 'decimal', 'attribute'))) AS `type`, `eav_attribute_additional`.`is_filterable` AS `is_enabled`, `eav_attribute`.`frontend_label` AS `name`, `eav_attribute_additional`.`is_filterable_in_search` AS `is_enabled_in_search`, `eav_attribute_additional`.`position` FROM `eav_attribute`
+ INNER JOIN `catalog_eav_attribute` AS `eav_attribute_additional` ON eav_attribute.attribute_id = eav_attribute_additional.attribute_id
+ INNER JOIN `eav_entity_type` ON eav_attribute.entity_type_id = eav_entity_type.entity_type_id
+ LEFT JOIN `m_filter2` AS `target` ON target.code = eav_attribute.attribute_code WHERE (eav_entity_type.entity_type_code = 'catalog_product') AND (eav_attribute_additional.is_filterable <> 0) AND (target.id IS NULL)
+2013-09-22T07:08:14+00:00 DEBUG (7): INSERT: SELECT ('category') AS `code`, ('category') AS `type`, (1) AS `is_enabled`, ('Category') AS `name`, (1) AS `is_enabled_in_search`, (-1) AS `position` FROM (SELECT ('category') AS `code`) AS `source`
+ LEFT JOIN `m_filter2` AS `target` ON target.code = 'category' WHERE (target.id IS NULL)
+2013-09-22T07:08:14+00:00 DEBUG (7): DELETE: SELECT DISTINCT `target`.`id` FROM `m_filter2` AS `target`
+ LEFT JOIN `eav_attribute` ON target.code = eav_attribute.attribute_code
+ LEFT JOIN `catalog_eav_attribute` AS `eav_attribute_additional` ON eav_attribute.attribute_id = eav_attribute_additional.attribute_id WHERE ((eav_attribute.attribute_id IS NULL) OR (eav_attribute_additional.is_filterable = 0)) AND (target.code <> 'category')
+2013-09-22T07:08:14+00:00 DEBUG (7): UPDATE: SELECT DISTINCT `target`.`id`, `target`.`global_id`, `target`.`store_id`, `target`.`default_mask0`, `target`.`default_mask1`, `global`.`is_enabled`, `global`.`display`, COALESCE(eav_attribute_label.value, global.name) AS `name`, `global`.`is_enabled_in_search`, `global`.`position`, `global`.`sort_method`, `global`.`operation`, `global`.`is_reverse` FROM `m_filter2` AS `global`
+ INNER JOIN `m_filter2_store` AS `target` ON target.global_id = global.id
+ LEFT JOIN `eav_attribute` ON global.code = eav_attribute.attribute_code
+ LEFT JOIN `eav_attribute_label` ON eav_attribute.attribute_id = eav_attribute_label.attribute_id AND target.store_id = eav_attribute_label.store_id
+2013-09-22T07:08:14+00:00 DEBUG (7): UPDATE: {"id":"1","global_id":"1","store_id":"1","_m_prevent_replication":true,"is_enabled":"1","display":"list","name":"Color","is_enabled_in_search":"0","position":"0","sort_method":"","operation":"","is_reverse":"0"}
+2013-09-22T07:08:14+00:00 DEBUG (7): UPDATE: {"id":"2","global_id":"2","store_id":"1","_m_prevent_replication":true,"is_enabled":"1","display":"list","name":"Manufacturer","is_enabled_in_search":"0","position":"0","sort_method":"","operation":"","is_reverse":"0"}
+2013-09-22T07:08:14+00:00 DEBUG (7): UPDATE: {"id":"3","global_id":"3","store_id":"1","_m_prevent_replication":true,"is_enabled":"1","display":"list","name":"Price","is_enabled_in_search":"0","position":"0","sort_method":"","operation":"","is_reverse":"0"}
+2013-09-22T07:08:14+00:00 DEBUG (7): UPDATE: {"id":"4","global_id":"4","store_id":"1","_m_prevent_replication":true,"is_enabled":"1","display":"standard","name":"Category","is_enabled_in_search":"1","position":"-1","sort_method":"","operation":"","is_reverse":"0"}
+2013-09-22T07:08:14+00:00 DEBUG (7): INSERT: SELECT DISTINCT `global`.`id` AS `global_id`, `core_store`.`store_id`, `global`.`is_enabled`, `global`.`display`, COALESCE(eav_attribute_label.value, global.name) AS `name`, `global`.`is_enabled_in_search`, `global`.`position`, `global`.`sort_method`, `global`.`operation`, `global`.`is_reverse` FROM `m_filter2` AS `global`
+ INNER JOIN `core_store`
+ LEFT JOIN `m_filter2_store` AS `target` ON target.global_id = global.id AND target.store_id = core_store.store_id
+ LEFT JOIN `eav_attribute` ON global.code = eav_attribute.attribute_code
+ LEFT JOIN `eav_attribute_label` ON eav_attribute.attribute_id = eav_attribute_label.attribute_id AND target.store_id = eav_attribute_label.store_id WHERE (core_store.store_id <> 0) AND (target.id IS NULL)
+2013-09-22T07:08:14+00:00 DEBUG (7): UPDATE: SELECT DISTINCT `target`.`id`, `target`.`option_id`, `target`.`filter_id`, `target`.`default_mask0`, `global_option_value`.`value_id`, `global_option_value`.`value` AS `name`, `eav_attribute_option`.`sort_order` AS `position` FROM `eav_attribute`
+ INNER JOIN `eav_attribute_option` ON eav_attribute.attribute_id = eav_attribute_option.attribute_id
+ INNER JOIN `m_filter2_value` AS `target` ON target.option_id = eav_attribute_option.option_id
+ INNER JOIN `m_filter2` AS `parent` ON target.filter_id = parent.id
+ LEFT JOIN `eav_attribute_option_value` AS `global_option_value` ON global_option_value.option_id = eav_attribute_option.option_id AND global_option_value.store_id = 0 WHERE (target.edit_status = 0)
+2013-09-22T07:08:14+00:00 DEBUG (7): INSERT: SELECT DISTINCT `eav_attribute_option`.`option_id`, `parent`.`id` AS `filter_id`, `global_option_value`.`value_id`, `global_option_value`.`value` AS `name`, `eav_attribute_option`.`sort_order` AS `position` FROM `eav_attribute`
+ INNER JOIN `eav_attribute_option` ON eav_attribute.attribute_id = eav_attribute_option.attribute_id
+ INNER JOIN `m_filter2` AS `parent` ON eav_attribute.attribute_code = parent.code
+ LEFT JOIN `eav_attribute_option_value` AS `global_option_value` ON global_option_value.option_id = eav_attribute_option.option_id AND global_option_value.store_id = 0
+ LEFT JOIN `m_filter2_value` AS `target` ON target.option_id = eav_attribute_option.option_id WHERE (target.id IS NULL)
+2013-09-22T07:08:14+00:00 DEBUG (7): UPDATE: SELECT DISTINCT `target`.`id`, `target`.`global_id`, `target`.`store_id`, `target`.`filter_id`, `target`.`default_mask0`, `global`.`option_id`, COALESCE(store_option_value.value_id, global_option_value.value_id) AS `value_id`, COALESCE(store_option_value.value, global_option_value.value, '') AS `name`, `global`.`position` FROM `m_filter2_value` AS `global`
+ INNER JOIN `m_filter2_value_store` AS `target` ON target.global_id = global.id AND global.edit_status = 0
+ INNER JOIN `eav_attribute_option` ON global.option_id = eav_attribute_option.option_id
+ INNER JOIN `m_filter2_store` AS `parent` ON target.filter_id = parent.id
+ LEFT JOIN `eav_attribute_option_value` AS `global_option_value` ON global_option_value.option_id = eav_attribute_option.option_id AND global_option_value.store_id = 0
+ LEFT JOIN `eav_attribute_option_value` AS `store_option_value` ON store_option_value.option_id = eav_attribute_option.option_id AND store_option_value.store_id = target.store_id WHERE (target.edit_status = 0)
+2013-09-22T07:08:14+00:00 DEBUG (7): INSERT: SELECT DISTINCT `global`.`id` AS `global_id`, `core_store`.`store_id`, `parent`.`id` AS `filter_id`, `global`.`option_id`, COALESCE(store_option_value.value_id, global_option_value.value_id) AS `value_id`, COALESCE(store_option_value.value, global_option_value.value, '') AS `name`, `global`.`position` FROM `m_filter2_value` AS `global`
+ INNER JOIN `core_store`
+ INNER JOIN `eav_attribute_option` ON global.option_id = eav_attribute_option.option_id
+ INNER JOIN `eav_attribute` ON eav_attribute.attribute_id = eav_attribute_option.attribute_id
+ INNER JOIN `m_filter2` AS `parent_global` ON eav_attribute.attribute_code = parent_global.code
+ INNER JOIN `m_filter2_store` AS `parent` ON parent_global.id = parent.global_id AND core_store.store_id = parent.store_id
+ LEFT JOIN `eav_attribute_option_value` AS `global_option_value` ON global_option_value.option_id = eav_attribute_option.option_id AND global_option_value.store_id = 0
+ LEFT JOIN `eav_attribute_option_value` AS `store_option_value` ON store_option_value.option_id = eav_attribute_option.option_id AND store_option_value.store_id = core_store.store_id
+ LEFT JOIN `m_filter2_value_store` AS `target` ON target.global_id = global.id AND target.store_id = core_store.store_id WHERE (core_store.store_id <> 0) AND (global.edit_status = 0) AND (target.id IS NULL)
+2013-09-22T07:13:42+00:00 DEBUG (7): UPDATE: SELECT DISTINCT `target`.`id`, `target`.`code`, `target`.`type`, `target`.`default_mask0`, `target`.`default_mask1`, `eav_attribute_additional`.`is_filterable` AS `is_enabled`, `eav_attribute`.`frontend_label` AS `name`, `eav_attribute_additional`.`is_filterable_in_search` AS `is_enabled_in_search`, `eav_attribute_additional`.`position` FROM `eav_attribute`
+ INNER JOIN `catalog_eav_attribute` AS `eav_attribute_additional` ON eav_attribute.attribute_id = eav_attribute_additional.attribute_id
+ INNER JOIN `eav_entity_type` ON eav_attribute.entity_type_id = eav_entity_type.entity_type_id
+ INNER JOIN `m_filter2` AS `target` ON target.code = eav_attribute.attribute_code WHERE (eav_entity_type.entity_type_code = 'catalog_product') AND (eav_attribute_additional.is_filterable <> 0) AND (eav_attribute.attribute_id IN ('137'))
+2013-09-22T07:13:42+00:00 DEBUG (7): UPDATE: SELECT `target`.`id`, `target`.`code`, `target`.`type`, `target`.`default_mask0`, `target`.`default_mask1`, (1) AS `is_enabled`, ('Category') AS `name`, (1) AS `is_enabled_in_search`, (-1) AS `position` FROM `m_filter2` AS `target` WHERE (target.code = 'category') AND ((1 <> 1))
+2013-09-22T07:13:42+00:00 DEBUG (7): INSERT: SELECT DISTINCT `eav_attribute`.`attribute_code` AS `code`, IF(eav_attribute.attribute_code = 'category', 'category', IF(eav_attribute.attribute_code = 'price', 'price', IF(eav_attribute.backend_type = 'decimal', 'decimal', 'attribute'))) AS `type`, `eav_attribute_additional`.`is_filterable` AS `is_enabled`, `eav_attribute`.`frontend_label` AS `name`, `eav_attribute_additional`.`is_filterable_in_search` AS `is_enabled_in_search`, `eav_attribute_additional`.`position` FROM `eav_attribute`
+ INNER JOIN `catalog_eav_attribute` AS `eav_attribute_additional` ON eav_attribute.attribute_id = eav_attribute_additional.attribute_id
+ INNER JOIN `eav_entity_type` ON eav_attribute.entity_type_id = eav_entity_type.entity_type_id
+ LEFT JOIN `m_filter2` AS `target` ON target.code = eav_attribute.attribute_code WHERE (eav_entity_type.entity_type_code = 'catalog_product') AND (eav_attribute_additional.is_filterable <> 0) AND (target.id IS NULL) AND (eav_attribute.attribute_id IN ('137'))
+2013-09-22T07:13:42+00:00 DEBUG (7): INSERT: SELECT ('category') AS `code`, ('category') AS `type`, (1) AS `is_enabled`, ('Category') AS `name`, (1) AS `is_enabled_in_search`, (-1) AS `position` FROM (SELECT ('category') AS `code`) AS `source`
+ LEFT JOIN `m_filter2` AS `target` ON target.code = 'category' WHERE (target.id IS NULL) AND ((1 <> 1))
+2013-09-22T07:13:42+00:00 DEBUG (7): UPDATE: SELECT DISTINCT `target`.`id`, `target`.`global_id`, `target`.`store_id`, `target`.`default_mask0`, `target`.`default_mask1`, `global`.`is_enabled`, `global`.`display`, COALESCE(eav_attribute_label.value, global.name) AS `name`, `global`.`is_enabled_in_search`, `global`.`position`, `global`.`sort_method`, `global`.`operation`, `global`.`is_reverse` FROM `m_filter2` AS `global`
+ INNER JOIN `m_filter2_store` AS `target` ON target.global_id = global.id
+ LEFT JOIN `eav_attribute` ON global.code = eav_attribute.attribute_code
+ LEFT JOIN `eav_attribute_label` ON eav_attribute.attribute_id = eav_attribute_label.attribute_id AND target.store_id = eav_attribute_label.store_id WHERE (eav_attribute.attribute_id IN ('137'))
+2013-09-22T07:13:42+00:00 DEBUG (7): INSERT: SELECT DISTINCT `global`.`id` AS `global_id`, `core_store`.`store_id`, `global`.`is_enabled`, `global`.`display`, COALESCE(eav_attribute_label.value, global.name) AS `name`, `global`.`is_enabled_in_search`, `global`.`position`, `global`.`sort_method`, `global`.`operation`, `global`.`is_reverse` FROM `m_filter2` AS `global`
+ INNER JOIN `core_store`
+ LEFT JOIN `m_filter2_store` AS `target` ON target.global_id = global.id AND target.store_id = core_store.store_id
+ LEFT JOIN `eav_attribute` ON global.code = eav_attribute.attribute_code
+ LEFT JOIN `eav_attribute_label` ON eav_attribute.attribute_id = eav_attribute_label.attribute_id AND target.store_id = eav_attribute_label.store_id WHERE (core_store.store_id <> 0) AND (target.id IS NULL) AND (eav_attribute.attribute_id IN ('137'))
+2013-09-22T07:13:42+00:00 DEBUG (7): UPDATE: SELECT DISTINCT `target`.`id`, `target`.`option_id`, `target`.`filter_id`, `target`.`default_mask0`, `global_option_value`.`value_id`, `global_option_value`.`value` AS `name`, `eav_attribute_option`.`sort_order` AS `position` FROM `eav_attribute`
+ INNER JOIN `eav_attribute_option` ON eav_attribute.attribute_id = eav_attribute_option.attribute_id
+ INNER JOIN `m_filter2_value` AS `target` ON target.option_id = eav_attribute_option.option_id
+ INNER JOIN `m_filter2` AS `parent` ON target.filter_id = parent.id
+ LEFT JOIN `eav_attribute_option_value` AS `global_option_value` ON global_option_value.option_id = eav_attribute_option.option_id AND global_option_value.store_id = 0 WHERE (target.edit_status = 0) AND (eav_attribute.attribute_id IN ('137'))
+2013-09-22T07:13:42+00:00 DEBUG (7): INSERT: SELECT DISTINCT `eav_attribute_option`.`option_id`, `parent`.`id` AS `filter_id`, `global_option_value`.`value_id`, `global_option_value`.`value` AS `name`, `eav_attribute_option`.`sort_order` AS `position` FROM `eav_attribute`
+ INNER JOIN `eav_attribute_option` ON eav_attribute.attribute_id = eav_attribute_option.attribute_id
+ INNER JOIN `m_filter2` AS `parent` ON eav_attribute.attribute_code = parent.code
+ LEFT JOIN `eav_attribute_option_value` AS `global_option_value` ON global_option_value.option_id = eav_attribute_option.option_id AND global_option_value.store_id = 0
+ LEFT JOIN `m_filter2_value` AS `target` ON target.option_id = eav_attribute_option.option_id WHERE (target.id IS NULL) AND (eav_attribute.attribute_id IN ('137'))
+2013-09-22T07:13:42+00:00 DEBUG (7): UPDATE: SELECT DISTINCT `target`.`id`, `target`.`global_id`, `target`.`store_id`, `target`.`filter_id`, `target`.`default_mask0`, `global`.`option_id`, COALESCE(store_option_value.value_id, global_option_value.value_id) AS `value_id`, COALESCE(store_option_value.value, global_option_value.value, '') AS `name`, `global`.`position` FROM `m_filter2_value` AS `global`
+ INNER JOIN `m_filter2_value_store` AS `target` ON target.global_id = global.id AND global.edit_status = 0
+ INNER JOIN `eav_attribute_option` ON global.option_id = eav_attribute_option.option_id
+ INNER JOIN `m_filter2_store` AS `parent` ON target.filter_id = parent.id
+ LEFT JOIN `eav_attribute_option_value` AS `global_option_value` ON global_option_value.option_id = eav_attribute_option.option_id AND global_option_value.store_id = 0
+ LEFT JOIN `eav_attribute_option_value` AS `store_option_value` ON store_option_value.option_id = eav_attribute_option.option_id AND store_option_value.store_id = target.store_id WHERE (target.edit_status = 0) AND (eav_attribute_option.attribute_id IN ('137'))
+2013-09-22T07:13:42+00:00 DEBUG (7): INSERT: SELECT DISTINCT `global`.`id` AS `global_id`, `core_store`.`store_id`, `parent`.`id` AS `filter_id`, `global`.`option_id`, COALESCE(store_option_value.value_id, global_option_value.value_id) AS `value_id`, COALESCE(store_option_value.value, global_option_value.value, '') AS `name`, `global`.`position` FROM `m_filter2_value` AS `global`
+ INNER JOIN `core_store`
+ INNER JOIN `eav_attribute_option` ON global.option_id = eav_attribute_option.option_id
+ INNER JOIN `eav_attribute` ON eav_attribute.attribute_id = eav_attribute_option.attribute_id
+ INNER JOIN `m_filter2` AS `parent_global` ON eav_attribute.attribute_code = parent_global.code
+ INNER JOIN `m_filter2_store` AS `parent` ON parent_global.id = parent.global_id AND core_store.store_id = parent.store_id
+ LEFT JOIN `eav_attribute_option_value` AS `global_option_value` ON global_option_value.option_id = eav_attribute_option.option_id AND global_option_value.store_id = 0
+ LEFT JOIN `eav_attribute_option_value` AS `store_option_value` ON store_option_value.option_id = eav_attribute_option.option_id AND store_option_value.store_id = core_store.store_id
+ LEFT JOIN `m_filter2_value_store` AS `target` ON target.global_id = global.id AND target.store_id = core_store.store_id WHERE (core_store.store_id <> 0) AND (global.edit_status = 0) AND (target.id IS NULL) AND (eav_attribute_option.attribute_id IN ('137'))
+2013-09-22T07:17:30+00:00 DEBUG (7): UPDATE: SELECT DISTINCT `target`.`id`, `target`.`code`, `target`.`type`, `target`.`default_mask0`, `target`.`default_mask1`, `eav_attribute_additional`.`is_filterable` AS `is_enabled`, `eav_attribute`.`frontend_label` AS `name`, `eav_attribute_additional`.`is_filterable_in_search` AS `is_enabled_in_search`, `eav_attribute_additional`.`position` FROM `eav_attribute`
+ INNER JOIN `catalog_eav_attribute` AS `eav_attribute_additional` ON eav_attribute.attribute_id = eav_attribute_additional.attribute_id
+ INNER JOIN `eav_entity_type` ON eav_attribute.entity_type_id = eav_entity_type.entity_type_id
+ INNER JOIN `m_filter2` AS `target` ON target.code = eav_attribute.attribute_code WHERE (eav_entity_type.entity_type_code = 'catalog_product') AND (eav_attribute_additional.is_filterable <> 0) AND (eav_attribute.attribute_id IN ('74'))
+2013-09-22T07:17:30+00:00 DEBUG (7): UPDATE: SELECT `target`.`id`, `target`.`code`, `target`.`type`, `target`.`default_mask0`, `target`.`default_mask1`, (1) AS `is_enabled`, ('Category') AS `name`, (1) AS `is_enabled_in_search`, (-1) AS `position` FROM `m_filter2` AS `target` WHERE (target.code = 'category') AND ((1 <> 1))
+2013-09-22T07:17:30+00:00 DEBUG (7): INSERT: SELECT DISTINCT `eav_attribute`.`attribute_code` AS `code`, IF(eav_attribute.attribute_code = 'category', 'category', IF(eav_attribute.attribute_code = 'price', 'price', IF(eav_attribute.backend_type = 'decimal', 'decimal', 'attribute'))) AS `type`, `eav_attribute_additional`.`is_filterable` AS `is_enabled`, `eav_attribute`.`frontend_label` AS `name`, `eav_attribute_additional`.`is_filterable_in_search` AS `is_enabled_in_search`, `eav_attribute_additional`.`position` FROM `eav_attribute`
+ INNER JOIN `catalog_eav_attribute` AS `eav_attribute_additional` ON eav_attribute.attribute_id = eav_attribute_additional.attribute_id
+ INNER JOIN `eav_entity_type` ON eav_attribute.entity_type_id = eav_entity_type.entity_type_id
+ LEFT JOIN `m_filter2` AS `target` ON target.code = eav_attribute.attribute_code WHERE (eav_entity_type.entity_type_code = 'catalog_product') AND (eav_attribute_additional.is_filterable <> 0) AND (target.id IS NULL) AND (eav_attribute.attribute_id IN ('74'))
+2013-09-22T07:17:31+00:00 DEBUG (7): INSERT: SELECT ('category') AS `code`, ('category') AS `type`, (1) AS `is_enabled`, ('Category') AS `name`, (1) AS `is_enabled_in_search`, (-1) AS `position` FROM (SELECT ('category') AS `code`) AS `source`
+ LEFT JOIN `m_filter2` AS `target` ON target.code = 'category' WHERE (target.id IS NULL) AND ((1 <> 1))
+2013-09-22T07:17:31+00:00 DEBUG (7): UPDATE: SELECT DISTINCT `target`.`id`, `target`.`global_id`, `target`.`store_id`, `target`.`default_mask0`, `target`.`default_mask1`, `global`.`is_enabled`, `global`.`display`, COALESCE(eav_attribute_label.value, global.name) AS `name`, `global`.`is_enabled_in_search`, `global`.`position`, `global`.`sort_method`, `global`.`operation`, `global`.`is_reverse` FROM `m_filter2` AS `global`
+ INNER JOIN `m_filter2_store` AS `target` ON target.global_id = global.id
+ LEFT JOIN `eav_attribute` ON global.code = eav_attribute.attribute_code
+ LEFT JOIN `eav_attribute_label` ON eav_attribute.attribute_id = eav_attribute_label.attribute_id AND target.store_id = eav_attribute_label.store_id WHERE (eav_attribute.attribute_id IN ('74'))
+2013-09-22T07:17:31+00:00 DEBUG (7): INSERT: SELECT DISTINCT `global`.`id` AS `global_id`, `core_store`.`store_id`, `global`.`is_enabled`, `global`.`display`, COALESCE(eav_attribute_label.value, global.name) AS `name`, `global`.`is_enabled_in_search`, `global`.`position`, `global`.`sort_method`, `global`.`operation`, `global`.`is_reverse` FROM `m_filter2` AS `global`
+ INNER JOIN `core_store`
+ LEFT JOIN `m_filter2_store` AS `target` ON target.global_id = global.id AND target.store_id = core_store.store_id
+ LEFT JOIN `eav_attribute` ON global.code = eav_attribute.attribute_code
+ LEFT JOIN `eav_attribute_label` ON eav_attribute.attribute_id = eav_attribute_label.attribute_id AND target.store_id = eav_attribute_label.store_id WHERE (core_store.store_id <> 0) AND (target.id IS NULL) AND (eav_attribute.attribute_id IN ('74'))
+2013-09-22T07:17:31+00:00 DEBUG (7): UPDATE: SELECT DISTINCT `target`.`id`, `target`.`option_id`, `target`.`filter_id`, `target`.`default_mask0`, `global_option_value`.`value_id`, `global_option_value`.`value` AS `name`, `eav_attribute_option`.`sort_order` AS `position` FROM `eav_attribute`
+ INNER JOIN `eav_attribute_option` ON eav_attribute.attribute_id = eav_attribute_option.attribute_id
+ INNER JOIN `m_filter2_value` AS `target` ON target.option_id = eav_attribute_option.option_id
+ INNER JOIN `m_filter2` AS `parent` ON target.filter_id = parent.id
+ LEFT JOIN `eav_attribute_option_value` AS `global_option_value` ON global_option_value.option_id = eav_attribute_option.option_id AND global_option_value.store_id = 0 WHERE (target.edit_status = 0) AND (eav_attribute.attribute_id IN ('74'))
+2013-09-22T07:17:31+00:00 DEBUG (7): INSERT: SELECT DISTINCT `eav_attribute_option`.`option_id`, `parent`.`id` AS `filter_id`, `global_option_value`.`value_id`, `global_option_value`.`value` AS `name`, `eav_attribute_option`.`sort_order` AS `position` FROM `eav_attribute`
+ INNER JOIN `eav_attribute_option` ON eav_attribute.attribute_id = eav_attribute_option.attribute_id
+ INNER JOIN `m_filter2` AS `parent` ON eav_attribute.attribute_code = parent.code
+ LEFT JOIN `eav_attribute_option_value` AS `global_option_value` ON global_option_value.option_id = eav_attribute_option.option_id AND global_option_value.store_id = 0
+ LEFT JOIN `m_filter2_value` AS `target` ON target.option_id = eav_attribute_option.option_id WHERE (target.id IS NULL) AND (eav_attribute.attribute_id IN ('74'))
+2013-09-22T07:17:31+00:00 DEBUG (7): UPDATE: SELECT DISTINCT `target`.`id`, `target`.`global_id`, `target`.`store_id`, `target`.`filter_id`, `target`.`default_mask0`, `global`.`option_id`, COALESCE(store_option_value.value_id, global_option_value.value_id) AS `value_id`, COALESCE(store_option_value.value, global_option_value.value, '') AS `name`, `global`.`position` FROM `m_filter2_value` AS `global`
+ INNER JOIN `m_filter2_value_store` AS `target` ON target.global_id = global.id AND global.edit_status = 0
+ INNER JOIN `eav_attribute_option` ON global.option_id = eav_attribute_option.option_id
+ INNER JOIN `m_filter2_store` AS `parent` ON target.filter_id = parent.id
+ LEFT JOIN `eav_attribute_option_value` AS `global_option_value` ON global_option_value.option_id = eav_attribute_option.option_id AND global_option_value.store_id = 0
+ LEFT JOIN `eav_attribute_option_value` AS `store_option_value` ON store_option_value.option_id = eav_attribute_option.option_id AND store_option_value.store_id = target.store_id WHERE (target.edit_status = 0) AND (eav_attribute_option.attribute_id IN ('74'))
+2013-09-22T07:17:31+00:00 DEBUG (7): INSERT: SELECT DISTINCT `global`.`id` AS `global_id`, `core_store`.`store_id`, `parent`.`id` AS `filter_id`, `global`.`option_id`, COALESCE(store_option_value.value_id, global_option_value.value_id) AS `value_id`, COALESCE(store_option_value.value, global_option_value.value, '') AS `name`, `global`.`position` FROM `m_filter2_value` AS `global`
+ INNER JOIN `core_store`
+ INNER JOIN `eav_attribute_option` ON global.option_id = eav_attribute_option.option_id
+ INNER JOIN `eav_attribute` ON eav_attribute.attribute_id = eav_attribute_option.attribute_id
+ INNER JOIN `m_filter2` AS `parent_global` ON eav_attribute.attribute_code = parent_global.code
+ INNER JOIN `m_filter2_store` AS `parent` ON parent_global.id = parent.global_id AND core_store.store_id = parent.store_id
+ LEFT JOIN `eav_attribute_option_value` AS `global_option_value` ON global_option_value.option_id = eav_attribute_option.option_id AND global_option_value.store_id = 0
+ LEFT JOIN `eav_attribute_option_value` AS `store_option_value` ON store_option_value.option_id = eav_attribute_option.option_id AND store_option_value.store_id = core_store.store_id
+ LEFT JOIN `m_filter2_value_store` AS `target` ON target.global_id = global.id AND target.store_id = core_store.store_id WHERE (core_store.store_id <> 0) AND (global.edit_status = 0) AND (target.id IS NULL) AND (eav_attribute_option.attribute_id IN ('74'))

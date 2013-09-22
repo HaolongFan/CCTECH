@@ -3091,6 +3091,12 @@
       <action method="addCss">
          <name>xmlconnect/boxes.css</name>
       </action>
+      <action method="addItem">
+         <type>skin_css</type>
+         <name>xmlconnect/iestyles.css</name>
+         <params/>
+         <if>lte IE 8</if>
+      </action>
    </reference>
 </default>
 <adminhtml_mobile_index>
@@ -3153,8 +3159,9 @@
          <type>js_css</type>
          <name>prototype/windows/themes/default.css</name>
       </action>
-      <action method="addCss">
-         <name>lib/prototype/windows/themes/magento.css</name>
+      <action method="addItem">
+         <type>js_css</type>
+         <name>prototype/windows/themes/magento.css</name>
       </action>
    </reference>
    <reference name="content">
@@ -3170,18 +3177,17 @@
    </reference>
 </adminhtml_mobile_new>
 <adminhtml_mobile_edit>
+   <update handle="editor"/>
    <reference name="left">
       <block type="xmlconnect/adminhtml_mobile_edit_tabs" name="mobile_edit_tabs">
+         <block type="xmlconnect/adminhtml_mobile_edit_tab_offlineCatalog" name="mobile_edit_tab_offlineCatalog"/>
          <block type="xmlconnect/adminhtml_mobile_edit_tab_general" name="mobile_edit_tab_general"/>
          <block type="xmlconnect/adminhtml_mobile_edit_tab_design" name="mobile_edit_tab_design">
+            <block type="adminhtml/media_uploader" name="adminhtml_media_uploader" as="media_uploader"/>
+            <block type="xmlconnect/adminhtml_mobile_edit_tab_design_images" name="mobile_edit_tab_design_images" as="design_images"/>
             <block type="xmlconnect/adminhtml_mobile_edit_tab_design_accordion" name="mobile_edit_tab_design_accordion" as="design_accordion">
-               <block type="xmlconnect/adminhtml_mobile_edit_tab_design_accordion_images" name="accordion_images"/>
                <block type="xmlconnect/adminhtml_mobile_edit_tab_design_accordion_themes" name="accordion_themes"/>
                <block type="xmlconnect/adminhtml_mobile_edit_tab_design_accordion_tabs" name="accordion_tabs"/>
-               <action method="addAccordionItem">
-                  <name>images</name>
-                  <block>accordion_images</block>
-               </action>
                <action method="addAccordionItem">
                   <name>themes</name>
                   <block>accordion_themes</block>
@@ -3243,6 +3249,9 @@
    <reference name="content">
       <block type="xmlconnect/adminhtml_mobile_edit" name="mobile_edit_content"/>
    </reference>
+   <reference name="before_body_end">
+      <block type="core/template" name="image_action_block" template="xmlconnect/edit/tab/design/image_edit.phtml"/>
+   </reference>
    <reference name="head">
       <action method="addCss">
          <name>xmlconnect/dropdown.css</name>
@@ -3301,6 +3310,7 @@
             </action>
          </block>
       </block>
+      <block type="core/template" template="xmlconnect/edit/tab/design/preview/banner_rotator.phtml"/>
    </block>
 </adminhtml_mobile_previewhome>
 <adminhtml_mobile_previewhomehor>
@@ -3315,6 +3325,7 @@
             </action>
          </block>
       </block>
+      <block type="core/template" template="xmlconnect/edit/tab/design/preview/banner_rotator.phtml"/>
    </block>
 </adminhtml_mobile_previewhomehor>
 <adminhtml_mobile_previewcataloghor>
@@ -3359,6 +3370,97 @@
       </block>
    </block>
 </adminhtml_mobile_previewproductinfo>
+<adminhtml_admin_application_index>
+   <reference name="left">
+      <block type="xmlconnect/adminhtml_admin_application_edit_tabs" name="admin_app_settings_tabs"/>
+   </reference>
+   <reference name="content">
+      <block type="xmlconnect/adminhtml_admin_application_edit" name="admin_app_settings"/>
+   </reference>
+</adminhtml_admin_application_index>
+<adminhtml_connect_config_index>
+   <block type="xmlconnect/adminhtml_connect_config" name="admin.connect.config" output="toHtml"/>
+</adminhtml_connect_config_index>
+<adminhtml_connect_config_localization>
+   <block type="xmlconnect/localization" name="xmlconnect.localization" output="toHtml"/>
+</adminhtml_connect_config_localization>
+<adminhtml_connect_dashboard_index>
+   <block type="xmlconnect/adminhtml_connect_dashboard" name="admin.connect.dashboard" output="toHtml">
+      <block type="xmlconnect/adminhtml_connect_dashboard_storeSwitcher" name="admin.connect.store.switcher" as="store_switcher"/>
+      <block type="xmlconnect/adminhtml_connect_dashboard_salesInfo" name="dashboard.sales.info" as="sales_info"/>
+      <block type="xmlconnect/adminhtml_connect_dashboard_graphInfo" name="dashboard.graph.info" as="graph_info">
+         <block type="xmlconnect/adminhtml_connect_dashboard_graphOrderData" name="dashboard.graph.order.data" as="graph_order_data"/>
+         <block type="xmlconnect/adminhtml_connect_dashboard_graphAmountsData" name="dashboard.graph.amounts.data" as="graph_amounts_data"/>
+         <block type="xmlconnect/adminhtml_connect_dashboard_graphTotalsData" name="dashboard.graph.totals.data" as="graph_totals_data"/>
+      </block>
+      <block type="xmlconnect/adminhtml_connect_dashboard_lastOrders" name="dashboard.last.orders" as="last_orders"/>
+      <block type="xmlconnect/adminhtml_connect_dashboard_lastSearchTerms" name="dashboard.last.search.terms" as="last_search_terms"/>
+      <block type="xmlconnect/adminhtml_connect_dashboard_newCustomers" name="dashboard.new.customers" as="new_customers"/>
+      <block type="xmlconnect/adminhtml_connect_dashboard_topSearchTerms" name="dashboard.top.search.terms" as="top_search_terms"/>
+      <block type="xmlconnect/adminhtml_connect_dashboard_mostViewedProducts" name="dashboard.most.viewed.products" as="most_viewed"/>
+      <block type="xmlconnect/adminhtml_connect_dashboard_bestSellers" name="dashboard.best.sellers" as="best_sellers"/>
+      <block type="xmlconnect/adminhtml_connect_dashboard_customers" name="dashboard.customers" as="customers"/>
+   </block>
+</adminhtml_connect_dashboard_index>
+<default>
+   <reference name="before_body_end">
+      <block type="mana_core/singleton" name="m_core_singletons"/>
+   </reference>
+</default>
+<jquery_core>
+   <reference name="head">
+      <action method="addJs" ifconfig="mana_dev/debug/jquery">
+         <script>jquery/jquery.js</script>
+      </action>
+      <action method="addJs" ifconfig="mana_dev/debug/jquery_min">
+         <script>jquery/jquery.min.js</script>
+      </action>
+      <action method="addJs">
+         <script>jquery/jquery.printf.js</script>
+      </action>
+      <action method="addJs">
+         <script>mana/core.js</script>
+      </action>
+      <action method="addCss">
+         <stylesheet>css/mana_core.css</stylesheet>
+      </action>
+   </reference>
+   <reference name="m_core_singletons">
+      <action method="addSingletonBlock">
+         <type>mana_core/js</type>
+         <name>m_js</name>
+         <template>mana/core/js.phtml</template>
+      </action>
+      <action method="addSingletonBlock">
+         <type>core/template</type>
+         <name>m_wait</name>
+         <template>mana/core/wait.phtml</template>
+      </action>
+   </reference>
+</jquery_core>
+<jquery_basic_effects>
+   <reference name="head">
+      <action method="addJs">
+         <script>jquery/jquery.easing.js</script>
+      </action>
+      <action method="addJs">
+         <script>jquery/advListRotator.js</script>
+      </action>
+   </reference>
+</jquery_basic_effects>
+<jquery_ui>
+   <reference name="head">
+      <action method="addCss">
+         <stylesheet>css/jquery/ui.css</stylesheet>
+      </action>
+      <action method="addJs" ifconfig="mana_dev/debug/jquery">
+         <script>jquery/jquery-ui.js</script>
+      </action>
+      <action method="addJs" ifconfig="mana_dev/debug/jquery_min">
+         <script>jquery/jquery-ui.min.js</script>
+      </action>
+   </reference>
+</jquery_ui>
 <adminhtml_system_config_edit>
    <reference name="content">
       <block type="moneybookers/jsinit" name="moneybookers_jsinit" template="moneybookers/jsinit.phtml"/>
