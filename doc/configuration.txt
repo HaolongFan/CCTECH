@@ -12,3 +12,8 @@ Login Name: Henry
 Password: admin123
 
 encryption key: 8e1123713171fed8599ccd37f0c3515a
+
+use cctech_db;
+UPDATE core_config_data SET value="http://184.22.200.100/" WHERE path="web/unsecure/base_url";
+
+mysql> source cctech_db.sql
