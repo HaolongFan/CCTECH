@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<config>
+  
+    <modules>
+        <CCTECH_OrderConfirm>
+             <!-- The version of our module, starting at 0.0.1 -->
+            <version>0.0.1</version>
+            
+        </CCTECH_OrderConfirm>
+    </modules>
+    
+   <global>
+    <block>
+      <orderconfirm>
+         <rewrite>
+            <orderconfirm>CCTECH_OrderConfirm_Block_OrderConfirm</orderconfirm>
+         </rewrite>
+      </orderconfirm>
+    </block>
+    
+    </global>
+    
+    <frontend>
+        <routers>
+            <orderconfirm>
+                <use>standard</use>
+                <args>
+                    <module>CCTECH_OrderConfirm</module>
+                    <frontName>orderconfirm</frontName>
+                </args>
+            </orderconfirm>
+        </routers>
+        <layout>
+            <updates>
+                <orderconfirm>
+                      <file>orderconfirm.xml</file>
+                </orderconfirm>
+            </updates>
+            </layout>
+    </frontend>
+</config>
